@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basket - Your Store Name</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <p>🚨 Special Offer: Get 20% off on all products! Limited time only. 🚨</p>
+    </div>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-menu">
+            <img src="logo.png" class="logo" alt="Logo">
+            <nav>
+                <ul class="menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="basket.html">Basket</a></li>
+                    <li><a href="sign in.html">Sign In</a></li>
+                    <li><a href="sign up.html">Sign Up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Basket Content -->
+    <div class="container">
+        <h2>Your Basket</h2>
+        <div class="basket-list">
+            <!-- Basket items will be dynamically inserted here -->
+        </div>
+        <div class="basket-total">
+            <h3>Total: $<span id="total-price">0.00</span></h3>
+            <button class="checkout-button">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 EL_Store. All rights reserved.</p>
+            <ul class="footer-menu">
+                <li><a href="about us.html">About Us</a></li>
+                <li><a href="policy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms & Conditions</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Script to display basket items -->
+    <script>
+        // Function to display the basket items from localStorage
+        function displayBasket() {
+            const basketList = document.querySelector('.basket-list');
+            basketList.innerHTML = '';  // Clear previous items
+
+            // Get the cart from localStorage
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                // If the cart is empty, display a message
+                basketList.innerHTML = '<p>Your basket is empty.</p>';
+            } else {
+                cart.forEach((item, index) => {
+                    // Create a div for each basket item
+                    const basketItemDiv = document.createElement('div');
+                    basketItemDiv.classList.add('basket-item');
+
+                    // Set the content for each item
+                    basketItemDiv.innerHTML = `
+                        <h3>${item.name}</h3>
+                        <img src="${item.image || 'default-product.jpg'}" alt="${item.name}">
+                        <p>Quantity: <span class="quantity">${item.quantity}</span></p>
+                        <p>Price: $${item.price.toFixed(2)}</p>
+                        <button class="remove-item" data-index="${index}">Remove</button>
+                    `;
+
+                    // Append the item to the basket list
+                    basketList.appendChild(basketItemDiv);
+
+                    // Calculate the total price
+                    totalPrice += item.price * item.quantity;
+                });
+            }
+
+            // Update the total price
+            document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+
+            // Add event listeners to the remove buttons
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = this.getAttribute('data-index');
+                    removeItemFromCart(index);
+                });
+            });
+        }
+
+        // Function to remove an item from the cart
+        function removeItemFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);  // Remove the item at the specified index
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayBasket();  // Refresh the basket display
+        }
+
+        // Display the basket on page load
+        window.onload = function() {
+            displayBasket(); // This is key to injecting the basket items dynamically
+        };
+    </script>
+</body>
+</html>
+ 

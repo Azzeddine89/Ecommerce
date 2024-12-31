@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Store Name</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <p>🚨 Special Offer: Get 20% off on all products! Limited time only. 🚨</p>
+    </div>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-menu">
+            <img src="logo.png" class="logo" alt="Logo">
+            <nav>
+                <ul class="menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="basket.html">Basket</a></li>
+                    <li><a href="sign in.html">Sign In</a></li>
+                    <li><a href="sign up.html">Sign Up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Products Content -->
+    <div class="container">
+        <h2>Available Products</h2>
+        <div class="product-list">
+            <div class="product-item">
+                <img src="produit1.jpg" alt="Casio Gold Watch">
+                <h4>Casio Gold Watch</h4>
+                <p>$99.99</p>
+                <button class="add-to-cart" data-name="Casio Gold Watch" data-price="99.99" data-image="produit1.jpg">Add to Cart</button>
+            </div>
+            
+            <div class="product-item">
+                <img src="produit1.jpg" alt="Casio Gold Watch">
+                <h4>Casio Gold Watch</h4>
+                <p>$99.99</p>
+                <button class="add-to-cart" data-name="Casio Gold Watch" data-price="99.99">Add to Cart</button>
+            </div>
+            <div class="product-item">
+                <img src="product2.jpg" alt="NewForce Watch">
+                <h4>NewForce Watch</h4>
+                <p>$89.99</p>
+                <button class="add-to-cart" data-name="NewForce Watch" data-price="89.99">Add to Cart</button>
+            </div>
+            <div class="product-item">
+                <img src="produit3.jpg" alt="Bestwin Watch">
+                <h4>Bestwin Watch</h4>
+                <p>$79.99</p>
+                <button class="add-to-cart" data-name="Bestwin Watch" data-price="79.99">Add to Cart</button>
+            </div>
+            <div class="product-item">
+                <img src="produit4.jpg" alt="Rolex Watch">
+                <h4>Rolex Watch</h4>
+                <p>$199.99</p>
+                <button class="add-to-cart" data-name="Rolex Watch" data-price="199.99">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 EL_Store. All rights reserved.</p>
+            <ul class="footer-menu">
+                <li><a href="about us.html">About Us</a></li>
+                <li><a href="policy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms & Conditions</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+
+   
+<script>
+    // Function to add product to cart
+    function addToCart(productName, productPrice, productImage) {
+        // Get the cart from localStorage or create an empty one
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Check if the product already exists in the cart
+        let existingProduct = cart.find(item => item.name === productName);
+        
+        if (existingProduct) {
+            // If the product exists, increase the quantity
+            existingProduct.quantity += 1;
+        } else {
+            // If the product doesn't exist, add it to the cart with a quantity of 1
+            cart.push({
+                name: productName,
+                price: parseFloat(productPrice),
+                image: productImage,
+                quantity: 1
+            });
+        }
+        
+        // Save the cart back to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        alert(productName + " has been added to your cart.");
+    }
+
+    // Add event listeners to all Add to Cart buttons
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const productName = this.getAttribute('data-name');
+            const productPrice = this.getAttribute('data-price');
+            const productImage = this.getAttribute('data-image');
+            addToCart(productName, productPrice, productImage);
+        });
+    });
+</script>
+
+    
+</body>
+</html>
